@@ -1,1 +1,0 @@
-These are the Python packages required to run the code:
