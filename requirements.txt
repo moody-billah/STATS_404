@@ -1,2 +1,6 @@
-These are the required Python packages:
+(base) C:\Users\muhta>conda activate env-stats404-w20
 
+(env-stats404-w20) C:\Users\muhta>conda list
+# packages in environment at C:\Users\muhta\Anaconda3\envs\env-stats404-w20:
+#
+# Name                    Version                   Build  Channel
