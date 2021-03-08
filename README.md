@@ -44,3 +44,18 @@ The ‘naive_bayes’ package from ‘sklearn’ was used to build this model. S
 
 The second version of the model with fixed priors was slightly better because the predictions were more balanced across categories. However, both versions of the were not very accurate in their overall predictions. This is mainly due to limitations in the dataset, since the explanatory variables did not have any strong relationship with the response variables. Although this model lacked accuracy, it can still be a starting point for answering the business question. If a model is already developed, it will be easier to add new data in the future to improve it, rather than rebuilding another model.
 
+## Architecture Diagram:
+
+![](images/architecture_diagram.png)
+
+## Input/Output Spec:
+
+Input JSON: {'total_items': 20, 'discount%': 4.09, 'weekday': 'Thu', 'hour': '13h'}
+
+Input Requirements
+*total_items: integer
+*discount%: float between 0 and 100
+*weekday: string in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+*hour: string from 00h to 23h with increment of 1h
+
+Output JSON: {'Food%': 22, 'Fresh%': 30, 'Drinks%': 25, 'Home%': 10, 'Beauty%': 2, 'Health%': 1, 'Baby%': 9, 'Pets%': 1}
