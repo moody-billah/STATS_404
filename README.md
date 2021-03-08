@@ -53,9 +53,9 @@ The second version of the model with fixed priors was slightly better because th
 Input JSON: {'total_items': 20, 'discount%': 4.09, 'weekday': 'Thu', 'hour': '13h'}
 
 Input Requirements
-*total_items: integer
-*discount%: float between 0 and 100
-*weekday: string in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-*hour: string from 00h to 23h with increment of 1h
+* total_items: integer
+* discount%: float between 0 and 100
+* weekday: string in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+* hour: string from 00h to 23h with increment of 1h
 
 Output JSON: {'Food%': 22, 'Fresh%': 30, 'Drinks%': 25, 'Home%': 10, 'Beauty%': 2, 'Health%': 1, 'Baby%': 9, 'Pets%': 1}
