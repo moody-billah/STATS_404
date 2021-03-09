@@ -33,14 +33,13 @@ Those predictions will be used the determine the share of product recommendation
 ## Metric to be monitored to see if the model is promising:
 
 The predicted share of product categories will be compared with the actual share of product categories to evaluate the effectiveness of this model.
-
 ## Methodology:
 
 In this project, the goal of the model is to predict the share of customer spending in each category for a new order. The dataset already contains the share per category of all existing orders, as well as some additional independent variables. 80% of the dataset is used for training the model and the remaining 20% is used for testing (HW3_Modeling, cell [6]).
 
-The Naïve Bayes classifier was chosen as the model, which uses Bayesian inferencing to output probabilities of each class in the outcome variable. This is appropriate for the business question because the probabilities can represent the expected share per category. The ‘Naïve’ part assumes that all the variables are independent of each other, which makes the computation easier.
+The Naïve Bayes classifier was chosen as the model, which uses Bayesian inferencing to output probabilities of each class in the outcome variable. This is appropriate for the business question because the probabilities can represent the expected share per category. The *Naïve* part assumes that all the variables are independent of each other, which makes the computation easier.
 
-The ‘naive_bayes’ package from ‘sklearn’ was used to build this model. Some basic feature engineering was done to prepare the data for modeling, which include converting response variables to probabilities, scaling continuous variables to be between 0 and 1, and one hot encoding categorical variables (HW3_Modeling, cells [3] – [5]). When training the model, the multinomial distribution was used since most of the features were discrete. Two versions of the model were tested, one with prior probabilities updated based on the data, and another with fixed prior probabilities based the overall mean share per category (HW3_Modeling, cells [7], [12]). The loss function used to evaluate the model was the absolute mean error for each category (HW3_Modeling, cells [10], [15]).
+The *naive_bayes* package from *sklearn* was used to build this model. Some basic feature engineering was done to prepare the data for modeling, which include converting response variables to probabilities, scaling continuous variables to be between 0 and 1, and one hot encoding categorical variables (HW3_Modeling, cells [3] – [5]). When training the model, the multinomial distribution was used since most of the features were discrete. Two versions of the model were tested, one with prior probabilities updated based on the data, and another with fixed prior probabilities based the overall mean share per category (HW3_Modeling, cells [7], [12]). The loss function used to evaluate the model was the absolute mean error for each category (HW3_Modeling, cells [10], [15]).
 
 The second version of the model with fixed priors was slightly better because the predictions were more balanced across categories. However, both versions of the were not very accurate in their overall predictions. This is mainly due to limitations in the dataset, since the explanatory variables did not have any strong relationship with the response variables. Although this model lacked accuracy, it can still be a starting point for answering the business question. If a model is already developed, it will be easier to add new data in the future to improve it, rather than rebuilding another model.
 
@@ -50,12 +49,32 @@ The second version of the model with fixed priors was slightly better because th
 
 ## Input/Output Spec:
 
-Input JSON: {'total_items': 20, 'discount%': 4.09, 'weekday': 'Thu', 'hour': '13h'}
+**Input JSON:** {'total_items': 20, 'discount%': 4.09, 'weekday': 'Thu', 'hour': '13h'}
 
-Input Requirements
-* total_items: integer
-* discount%: float between 0 and 100
-* weekday: string in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-* hour: string from 00h to 23h with increment of 1h
+**Input Requirements:**
+- *total_items:* integer
+- *discount%:* float between 0 and 100
+- *weekday:* string in [*Mon*, *Tue*, *Wed*, *Thu*, *Fri*, *Sat*, *Sun*]
+- *hour:* string from 00h to 23h with increment of 1h
 
-Output JSON: {'Food%': 22, 'Fresh%': 30, 'Drinks%': 25, 'Home%': 10, 'Beauty%': 2, 'Health%': 1, 'Baby%': 9, 'Pets%': 1}
+**Output JSON:** {'Food%': 22, 'Fresh%': 30, 'Drinks%': 25, 'Home%': 10, 'Beauty%': 2, 'Health%': 1, 'Baby%': 9, 'Pets%': 1}
+The output consists of the percentage share for each product category rounded to the nearest integer.
+
+## Testing
+
+There are 2 unit tests done after running the *data_cleaning* function, verifying if the column values were correctly converted to their readable names. This is important because readable names are required for them to work as categorical variables. There is also an integration test done after running both the *data_cleaning* and *feature_engineering* functions, verifying if all the features have values ranging from 0 to 1. This is important because the multinomial Naïve Bayes classifier requires all features to be between 0 and 1.
+
+**Unit Tests:**
+1. *test_weekday:* Tests if the *weekday* column has the correct values.
+2. *test_hour:* Tests if the *hour* column has the correct values after.
+
+**Integration Test:**
+- *test_feature_range:* Tests if all the values range from 0 to 1.
+
+**Test Results:**
+
+![](images/test_results.png)
+
+**Test Coverage:**
+
+![](images/test_coverage.png)
