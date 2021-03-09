@@ -51,10 +51,7 @@ def feature_engineering(ulabox_data):
     #The base for 'weekday' is 'Mon' and the base for 'hour' is '00h'
     ulabox_data = pd.get_dummies(ulabox_data, drop_first=True)
 
-    #Getting the column names for the response variables.
-    response_cols = ulabox_data.loc[:,'Food':'Pets'].columns
-
-    return ulabox_data, response_cols
+    return ulabox_data
 
 def data_splitting(ulabox_data):
     """Splitting the data into train and test sets for response and explanatory variables."""
@@ -65,6 +62,9 @@ def data_splitting(ulabox_data):
     #Re-indexing the train and test sets.
     ulabox_train.reset_index(drop=True, inplace=True)
     ulabox_test.reset_index(drop=True, inplace=True)
+
+    #Getting the column names for the response variables.
+    response_cols = ulabox_data.loc[:,'Food':'Pets'].columns
 
     #Separting the response variables from the train and test sets.
     response_train = ulabox_train[response_cols]
@@ -77,7 +77,7 @@ def data_splitting(ulabox_data):
     explanatory_train = ulabox_train.drop(columns=response_cols)
     explanatory_test = ulabox_test.drop(columns=response_cols)
 
-    return response_train, response_test, response_train_max, explanatory_train, explanatory_test
+    return response_cols, response_train, response_test, response_train_max, explanatory_train, explanatory_test
 
 def creating_priors(response_train):
     """Creating prior probabilities required for the model fitting."""
@@ -126,11 +126,11 @@ if __name__ == '__main__':
     LOGGER.info('Cleaned the data successfully.')
 
     #Feature Engineering
-    ulabox_data, response_cols = feature_engineering(ulabox_data)
+    ulabox_data = feature_engineering(ulabox_data)
     LOGGER.info('Engineered the features successfully.')
 
     #Data Splitting
-    response_train, response_test, response_train_max, explanatory_train, explanatory_test = data_splitting(ulabox_data)
+    response_cols, response_train, response_test, response_train_max, explanatory_train, explanatory_test = data_splitting(ulabox_data)
     LOGGER.info('Split the data successfully.')
 
     #Creating Priors
@@ -144,5 +144,3 @@ if __name__ == '__main__':
     #Model Evaluation
     model_eval = model_evaluation(model, explanatory_test, response_cols, response_test)
     LOGGER.info('Evaluated the model successfully.')
-
-print(model_eval)
